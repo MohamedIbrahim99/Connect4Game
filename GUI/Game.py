@@ -297,7 +297,31 @@ class Ui_GameWindow(QMainWindow):
 
     """ Swapping turns between human and computer """
     def take_turns(self):
-        totalTurns = int(self.redTurns.text()) + int(self.yellowTurns.text())
+        if self.turn == HUMAN:
+           turns = int(self.redTurns.text()) + 1
+           self.redTurns.setText(str(turns))
+           score = self.calculate_score(self.gridScene.filledCheckers, self.turn)
+           self.redScore.setText(str(score))
+           self.user.setStyleSheet(u"border-radius: 25%;\n"
+                                    "background-color: rgb(252, 242, 215);\n"
+                                    "border: 1px solid black ")
+           self.computer.setStyleSheet(u"border-radius: 25%;\n"
+                                        "background-color: rgb(252, 242, 215);\n"
+                                        "border: 3px solid black ")
+           
+        else:
+            turns = int(self.yellowTurns.text()) + 1
+            self.yellowTurns.setText(str(turns))
+            score = self.calculate_score(self.gridScene.filledCheckers, self.turn)
+            self.yellowScore.setText(str(score))
+            self.computer.setStyleSheet(u"border-radius: 25%;\n"
+                                          "background-color: rgb(252, 242, 215);\n"
+                                          "border: 1px solid black ")
+            self.user.setStyleSheet(u"border-radius: 25%;\n"
+                                     "background-color: rgb(252, 242, 215);\n"
+                                     "border: 3px solid black ")
+
+        totalTurns = int(self.redTurns.text()) + int(self.yellowTurns.text())     
         if totalTurns == 64:
             self.time.stop()
             if int(self.redScore.text()) > int(self.yellowScore.text()):
@@ -315,30 +339,10 @@ class Ui_GameWindow(QMainWindow):
 
         else:
             if self.turn == HUMAN:
-              turns = int(self.redTurns.text()) + 1
-              self.redTurns.setText(str(turns))
-              score = self.calculate_score(self.gridScene.filledCheckers, self.turn)
-              self.redScore.setText(str(score))
-              self.user.setStyleSheet(u"border-radius: 25%;\n"
-                                       "background-color: rgb(252, 242, 215);\n"
-                                       "border: 1px solid black ")
-              self.computer.setStyleSheet(u"border-radius: 25%;\n"
-                                           "background-color: rgb(252, 242, 215);\n"
-                                           "border: 3px solid black ")
               self.turn = COMPUTER
               self.play_computer()
 
             else:
-              turns = int(self.yellowTurns.text()) + 1
-              self.yellowTurns.setText(str(turns))
-              score = self.calculate_score(self.gridScene.filledCheckers, self.turn)
-              self.yellowScore.setText(str(score))
-              self.computer.setStyleSheet(u"border-radius: 25%;\n"
-                                           "background-color: rgb(252, 242, 215);\n"
-                                           "border: 1px solid black ")
-              self.user.setStyleSheet(u"border-radius: 25%;\n"
-                                       "background-color: rgb(252, 242, 215);\n"
-                                       "border: 3px solid black ")
               self.turn = HUMAN
               self.play_human()
 
@@ -358,7 +362,7 @@ class Ui_GameWindow(QMainWindow):
         
         state = self.gridScene.filledCheckers # AI
         decision, root = make_decision(state, self.k, self.pruning, int(self.redScore.text()), int(self.yellowScore.text())) # AI
-        new_state, new_utility = decision
+        new_state, new_utility = decision # AI
         column = self.column_changed(state, new_state) # AI
         self.BFS(root)
         dropAreas[column].agentEvent()
@@ -380,7 +384,7 @@ class Ui_GameWindow(QMainWindow):
             explored.append(node.state)
 
             if node.parent != None:
-              text = text + "parent = \n" + self.state_format(node.parent.state)  
+              text = text + "parent = \n" + self.state_format(node.parent.state)      
             if node.minimax == MAX:
               text = text + "Max" + "player \n"
             else:
@@ -394,15 +398,15 @@ class Ui_GameWindow(QMainWindow):
             self.tree.setText(text)
             
             for child in node.children:
-                if child not in frontier:
-                    isExplored = False
-                    for eState in explored:
-                        if np.array_equal(eState, child.state):
-                            isExplored = True
-                            break
-                    if not isExplored:
-                       frontier.append(child)
+                if child not in frontier and not self.is_explored(child.state, explored):
+                    frontier.append(child)
 		
+
+    def is_explored(self, state, explored):
+        for eState in explored:
+            if np.array_equal(eState, state):
+                return True
+        return False
 
     def state_format(self, state):
         state_format = ""

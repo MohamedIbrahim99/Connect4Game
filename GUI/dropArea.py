@@ -81,11 +81,6 @@ class dropArea(QGraphicsItem):
         if self.acceptPress:
           self.pressed = True  
           self.update()
-
-    def mouseReleaseEvent(self, event: 'QGraphicsSceneMouseEvent'):
-        if self.acceptPress:
-          self.pressed = False  
-          self.update()
         
     def agentEvent(self):
         self.paintComputer()
