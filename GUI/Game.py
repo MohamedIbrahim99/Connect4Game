@@ -358,11 +358,15 @@ class Ui_GameWindow(QMainWindow):
             self.gridScene.acceptPress[col] = False
         
         state = self.gridScene.filledCheckers # AI
+        start = time.time()
         decision, root = make_decision(state, self.k, self.pruning, int(self.redScore.text()), int(self.yellowScore.text())) # AI
+        running_time = time.time() - start
+        print("Time consumed for applying minimax algorithms: ")
+        print(running_time, "seconds")
         new_state, new_utility = decision # AI
         column = self.column_changed(state, new_state) # AI
-        self.BFS(root)
         dropAreas[column].agentEvent()
+        self.BFS(root)
     
     def column_changed(self, state, new_state):
         for i in range(len(state)):
@@ -373,12 +377,14 @@ class Ui_GameWindow(QMainWindow):
     def BFS(self, intialNode):
         frontier = [intialNode]
         explored = []
+        node_expanded = 0
 
         text = "Minimax Tree Nodes:"
 
         while len(frontier) != 0:
             node = frontier.pop(0)
             explored.append(node.state)
+            node_expanded += 1
 
             if node.parent != None:
               text = text + "parent = \n" + self.state_format(node.parent.state)      
@@ -398,6 +404,7 @@ class Ui_GameWindow(QMainWindow):
                 if child not in frontier and not self.is_explored(child.state, explored):
                     frontier.append(child)
 		
+        print("Node expanded = ", node_expanded)
 
     def is_explored(self, state, explored):
         for eState in explored:
