@@ -53,20 +53,19 @@ class dropArea(QGraphicsItem):
         yellowPen = QPen(QColor("#f5ec42"))
         yellowBrush = QBrush(QColor("#f5ec42"), Qt.BrushStyle.SolidPattern)
 
-        if not self.acceptPress and not self.acceptHoverEvents():
-           column = self.column
-           scene = self.scene()
-           checkers = scene.checkers[0:8]
-           checkersColumn = checkers[column]
-           filled = scene.filledCheckers
+        column = self.column
+        scene = self.scene()
+        checkers = scene.checkers[0:8]
+        checkersColumn = checkers[column]
+        filled = scene.filledCheckers
 
-           for row in range(7, -1, -1):
-               if filled[row][column] == 0:
-                  scene.filledCheckers[row][column] = 2
-                  scene.addEllipse(checkersColumn[row], yellowPen, yellowBrush)
-                  break
+        for row in range(7, -1, -1):
+            if filled[row][column] == 0:
+                scene.filledCheckers[row][column] = 2
+                scene.addEllipse(checkersColumn[row], yellowPen, yellowBrush)
+                break
         
-           scene.game.take_turns()
+        scene.game.take_turns()
 
 
     def hoverEnterEvent(self, event: 'QGraphicsSceneHoverEvent'):
@@ -78,7 +77,9 @@ class dropArea(QGraphicsItem):
         self.update()
 
     def mousePressEvent(self, event: 'QGraphicsSceneMouseEvent'):
-        if self.acceptPress:
+        col = self.column
+        press  = self.scene().acceptPress
+        if press[col]:
           self.pressed = True  
           self.update()
         

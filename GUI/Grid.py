@@ -24,6 +24,7 @@ class Grid(QGraphicsScene):
         self.game = game
 
         self.dropAreas = []
+        self.acceptPress = [True for i in range(self.col)]
         self.checkers = []  
         self.filledCheckers = np.zeros((self.col,self.row), dtype=int)
         

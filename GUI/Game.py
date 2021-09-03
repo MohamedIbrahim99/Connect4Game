@@ -347,18 +347,15 @@ class Ui_GameWindow(QMainWindow):
               self.play_human()
 
     def play_human(self):
-        dropAreas = self.gridScene.dropAreas
         upperRow = self.gridScene.filledCheckers[0]
-        for area in dropAreas:
-            if upperRow[area.column] == 0:
-              area.acceptPress = True
-              area.setAcceptHoverEvents(True)
+        for col in range(8):
+            if upperRow[col] == 0:
+               self.gridScene.acceptPress[col] = True
 
     def play_computer(self):
         dropAreas = self.gridScene.dropAreas
-        for area in dropAreas:
-            area.acceptPress = False
-            area.setAcceptHoverEvents(False)
+        for col in range(8):
+            self.gridScene.acceptPress[col] = False
         
         state = self.gridScene.filledCheckers # AI
         decision, root = make_decision(state, self.k, self.pruning, int(self.redScore.text()), int(self.yellowScore.text())) # AI
