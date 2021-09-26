@@ -4,7 +4,7 @@ AI agent solving Connect-4 using minimax algorithm (with and without pruning)
 ### User Guide
 1. Choose if you want to apply pruning to the minimax algorithm and set the K value.
 Then, press the play button.
-![Main](Images\Main.jpg)
+![Main](/Images/Main.jpg)
 
 2. The red (Human) and yellow (Computer) checkers are added to the grid from the
 white bar above by pressing above the column we want to add the new checker to
