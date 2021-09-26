@@ -2,7 +2,7 @@
 AI agent solving Connect-4 using minimax algorithm (with and without pruning)
 
 ### How to run
-** It is run from the Main.py file. **
+_ It is run from the Main.py file. _
 
 ### User Guide
 1. Choose if you want to apply pruning to the minimax algorithm and set the K value.
