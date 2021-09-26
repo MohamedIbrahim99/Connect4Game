@@ -1,7 +1,7 @@
 # Connect-4 Game
 AI agent solving Connect-4 using minimax algorithm (with and without pruning)
 
-![GIF](http://i.imgur.com/Ssfp7.gif)
+![GIF](/readme/Preview.gif)
 
 ### How to run
 - It is run from */GUI/Main.py* file. 
