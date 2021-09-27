@@ -3,6 +3,11 @@ AI agent solving Connect-4 using minimax algorithm (with and without pruning)
 
 ![GIF](/readme/Preview.gif)
 
+### Install libraries
+This project requires the following Python libraries installed:
+- [NumPy](https://numpy.org/)
+- [PyQt5](https://pypi.org/project/PyQt5/)
+
 ### How to run
 - It is run from */GUI/Main.py* file. 
 
